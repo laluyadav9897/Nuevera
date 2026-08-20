@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopfloor &mdash; everyday goods</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="brand">shop<span>floor</span></div>
+    <div class="tagline">everyday goods, sold straight</div>
+  </div>
+  <a href="/admin.html" class="mono" style="font-size:12px;">seller login →</a>
+</div>
+
+<div class="wrap">
+  <div class="section-head">
+    <h2>Catalog</h2>
+    <div class="rule"></div>
+  </div>
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty hidden">No products listed yet. Check back soon.</div>
+</div>
+
+<!-- Buy now modal -->
+<div id="buyOverlay" class="overlay hidden">
+  <div class="modal">
+    <h3 id="buyTitle">Buy now</h3>
+    <div class="sub" id="buySub"></div>
+    <form id="buyForm">
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" id="custName" required />
+      </div>
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" id="custPhone" required />
+      </div>
+      <div class="field">
+        <label>Delivery address</label>
+        <textarea id="custAddress" required></textarea>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn ghost" id="cancelBuy">Cancel</button>
+        <button type="submit" class="btn amber">Place order</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<button id="chatFab" class="chat-fab hidden">Chat about your order</button>
+<div id="chatPanel" class="chat-panel hidden">
+  <div class="chat-head">
+    <div>
+      <div class="title">Order chat</div>
+      <div class="order-id mono" id="chatOrderId"></div>
+    </div>
+    <button id="closeChat">&times;</button>
+  </div>
+  <div id="chatBody" class="chat-body"></div>
+  <div class="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message…" />
+    <button id="chatSend">Send</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/shop.js"></script>
+</body>
+</html>

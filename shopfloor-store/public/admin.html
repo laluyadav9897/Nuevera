@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopfloor — seller panel</title>
+<link rel="stylesheet" href="/style.css" />
+<style>
+  .layout { display: grid; grid-template-columns: 1fr; gap: 32px; }
+  @media (min-width: 900px) { .layout { grid-template-columns: 340px 1fr; } }
+  .panel { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .order-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 10px; border-bottom: 1px dashed var(--line); cursor: pointer;
+  }
+  .order-row:hover { background: var(--paper); }
+  .order-row.active { background: var(--amber); }
+  .order-row .name { font-weight: 600; font-size: 14px; }
+  .order-row .sub { font-size: 12px; color: var(--ink-soft); }
+  .thread { display: flex; flex-direction: column; height: 560px; }
+  .thread-head { padding-bottom: 12px; border-bottom: 1px dashed var(--line); margin-bottom: 12px; }
+  .thread-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 4px 2px; }
+  .thread-input { display: flex; gap: 8px; margin-top: 12px; }
+  .thread-input input { flex: 1; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius); }
+  .prod-list-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .prod-list-row img { width: 40px; height: 40px; object-fit: contain; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); margin-right: 10px; }
+  .prod-list-left { display: flex; align-items: center; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="brand">shop<span>floor</span></div>
+    <div class="tagline">seller panel</div>
+  </div>
+  <a href="/" class="mono" style="font-size:12px;">← back to store</a>
+</div>
+
+<div id="loginScreen" class="wrap" style="max-width:380px;">
+  <div class="panel">
+    <h3>Seller login</h3>
+    <div class="sub" style="font-size:13px;color:var(--ink-soft);margin:6px 0 16px;">Enter the seller password to manage products, orders, and chats.</div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" />
+    </div>
+    <button class="btn amber" id="loginBtn" style="width:100%;">Log in</button>
+    <div id="loginError" class="hidden" style="color:var(--danger); font-size:13px; margin-top:10px;"></div>
+  </div>
+</div>
+
+<div id="dashboard" class="wrap hidden">
+  <div class="layout" style="margin-bottom:36px;">
+    <div class="panel">
+      <h3>Add a product</h3>
+      <form id="productForm" style="margin-top:14px;">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" id="pName" required />
+        </div>
+        <div class="field">
+          <label>Price (₹)</label>
+          <input type="number" id="pPrice" min="0" step="1" required />
+        </div>
+        <div class="field">
+          <label>SKU (optional)</label>
+          <input type="text" id="pSku" />
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="pDesc"></textarea>
+        </div>
+        <div class="field">
+          <label>Photo</label>
+          <input type="file" id="pImage" accept="image/*" />
+        </div>
+        <button type="submit" class="btn amber" style="width:100%;">Upload product</button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h3>Current listings</h3>
+      <div id="productList" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Orders</h3>
+      <div id="orderList" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="panel">
+      <div id="noOrderSelected" class="empty">Select an order to see the chat.</div>
+      <div id="thread" class="thread hidden">
+        <div class="thread-head">
+          <div id="threadCustomer" style="font-weight:700;"></div>
+          <div id="threadDetails" class="mono" style="font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5;"></div>
+        </div>
+        <div id="threadBody" class="thread-body"></div>
+        <div class="thread-input">
+          <input type="text" id="threadText" placeholder="Reply to customer…" />
+          <button class="btn" id="threadSend">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/admin.js"></script>
+</body>
+</html>

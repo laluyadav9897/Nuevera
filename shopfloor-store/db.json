@@ -1,0 +1,24 @@
+{
+  "products": [
+    {
+      "id": "p1",
+      "name": "Dishwashing Gloves",
+      "price": 249,
+      "description": "Reinforced rubber gloves with a non-slip grip and cotton lining. Sold as one pair, size M/L.",
+      "image": "/uploads/seed-gloves.svg",
+      "sku": "HH-GLV-001",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "p2",
+      "name": "Tape Dispenser",
+      "price": 399,
+      "description": "Weighted desktop tape dispenser, holds standard 1-inch tape rolls. Non-skid base.",
+      "image": "/uploads/seed-tape.svg",
+      "sku": "HH-TPD-002",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "orders": [],
+  "messages": []
+}

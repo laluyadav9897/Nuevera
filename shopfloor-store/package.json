@@ -1,0 +1,15 @@
+{
+  "name": "shopfloor-store",
+  "version": "1.0.0",
+  "description": "A small e-commerce site with product uploads, order placement, and live buyer/seller chat.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.0.0",
+    "socket.io": "^4.7.5",
+    "nanoid": "^3.3.7"
+  }
+}
