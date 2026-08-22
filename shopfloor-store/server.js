@@ -64,15 +64,12 @@ app.use(express.json());
 app.use("/uploads", express.static(UPLOADS_DIR));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Store uploaded images in memory, then save them as base64 text directly
+// inside the product's database record. This is what makes photos survive
+// restarts — nothing is written to disk, which Render wipes periodically.
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-    filename: (req, file, cb) => {
-      const ext = path.extname(file.originalname) || "";
-      cb(null, `${nanoid(10)}${ext}`);
-    },
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 3 * 1024 * 1024 }, // 3MB max per photo
 });
 
 function requireAdmin(req, res, next) {
@@ -101,13 +98,18 @@ app.post("/api/admin/products", requireAdmin, upload.single("image"), async (req
   if (!name || !price) {
     return res.status(400).json({ error: "Name and price are required." });
   }
+  let image = "/uploads/placeholder.svg";
+  if (req.file) {
+    const base64 = req.file.buffer.toString("base64");
+    image = `data:${req.file.mimetype};base64,${base64}`;
+  }
   const product = {
     id: nanoid(8),
     name,
     price: Number(price),
     description: description || "",
     sku: sku || "",
-    image: req.file ? `/uploads/${req.file.filename}` : "/uploads/placeholder.svg",
+    image,
     createdAt: new Date().toISOString(),
   };
   await products.insertOne(product);
